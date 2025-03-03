@@ -3,7 +3,7 @@ OBJS =data.o main.o io.o proce.o utility.o ini.o attack.o book.o makemove.o \
       quiesrch.o evaluate.o swap.o  hash.o root.o next.o movgenex.o \
       genevasn.o gencap.o gennocap.o gendrop.o mate1ply.o rand.o learn1.o \
       learn2.o evaldiff.o problem.o ponder.o thread.o sckt.o debug.o mate3.o \
-      genchk.o phash.o
+      genchk.o phash.o nnue.o usi.o benchmark.o
 
 # Compile Options
 #
@@ -17,7 +17,7 @@ OBJS =data.o main.o io.o proce.o utility.o ini.o attack.o book.o makemove.o \
 # -DMNJ_LAN         enables a client-mode of cluster computing.
 # -DNO_LOGGING      suppresses dumping log files.
 
-OPT =-DNDEBUG -DMINIMUM -DTLP -DCSA_LAN -DMNJ_LAN -DXBOARD -DMPV
+OPT =-DNDEBUG -DMINIMUM -DTLP -DCSA_LAN -DMNJ_LAN -DXBOARD -DMPV -DUSE_NNUE
 
 help:
 	@echo "try targets as:"
@@ -35,6 +35,10 @@ bonanza : $(OBJS)
 	$(CC) -o bonanza $(OBJS) $(LDFLAG1) $(LDFLAG2)
 
 $(OBJS) : shogi.h param.h
+
+nnue.o: nnue.h
+usi.o: usi.h nnue.h
+benchmark.o: benchmark.h usi.h nnue.h
 
 .c.o :
 	$(CC) -c $(CFLAGS) $*.c
